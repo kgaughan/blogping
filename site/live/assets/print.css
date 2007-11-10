@@ -1,0 +1,49 @@
+body {
+	font-family: Palatino, "Palatino Linotype", Times, "Times New Roman", serif;
+	margin: 0;
+	padding: 0;
+	line-height: 1.5;
+}
+
+h2 {
+	font-weight: normal;
+}
+
+p {
+	margin: 1ex 0 0 4em;
+	text-align: justify;
+}
+
+p + p {
+	text-indent: 2em;
+	margin-top: 0;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+#logo:after {
+	content: ":";
+}
+
+.post-footer {
+	border-top: 0.125ex solid silver;
+	text-align: right;
+}
+
+#nav, .quick-edit-icon {
+	display: none;
+}
+
+#footer {
+	margin-top: 2em;
+	padding: 1ex 0;
+	border-top: 0.125ex solid silver;
+	text-align: center;
+}
+
+#footer img {
+	display: none;
+}

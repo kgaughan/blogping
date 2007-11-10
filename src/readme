@@ -1,0 +1,81 @@
+
+                                    BLOGPING
+                                    ========
+
+                         A weblog aggregator ping proxy
+                                by Keith Gaughan
+
+
+Background
+==========
+
+While sitting in a Boston hotel room one weekend, filled to the gills with
+some noxious disease I picked up either on the plane the weekend before or in
+the office later that week, I found myself in need of something to do. Heading
+out was out of the question, and American TV is, well, rubbish. It was a matter
+of either doing something productive or going daft.
+
+So I wrote a weblog ping proxy.
+
+
+Usage
+=====
+
+If you're setting it up, the first thing you should think about changing is
+the './configuration/configuration.php' file. It's well commented, and each
+setting is explained in it. Edit them there to taste. Next, you'll have to
+edit the templates in the 'template' directory, and the 'assets/screen.css'
+file to suit the look of your ping proxy.
+
+It should be fire and forget, but if you've any problems, head to the project
+site and contact me.
+
+
+Technical Details
+=================
+
+You'll need PHP obviously. It works just fine on PHP 5 (which I have on my
+laptop) and PHP 4 (which the server hosting the copy on my site runs). A quick
+scan through the PHP manual lets me know that PHP 4.3 is the minimum you'll
+need, though it can be changed to run on PHP 4.2 and maybe even PHP 4.1 if
+you don't mind using some deprecated features.
+
+It doesn't depend on any PECL modules, so it should be deployable everywhere.
+It doesn't care about your magic quotes settings, but turn them off anyway if
+you can 'cause it's a retarded misfeature.
+
+The HTTP client code is pretty robust and designed to work with even the most
+slow and petulant aggregators (*cough* PlanetPHP *cough*), but it doesn't
+understand the chunked transfer encoding, so be warned. Also the code for
+inspecting the response cheats somewhat. Rather than digging through the
+document, we just look for 'flerror' and 'message' and extract the values
+following them. Simple, but effective.
+
+
+Contacting
+==========
+
+I don't give out my email address anymore due to spam, but I do have a contact
+form on my website. You can email me from:
+
+	http://talideon.com/about/contact/
+
+Don't worry if I don't get back immediately. I'll probably be too busy, but be
+assured that I'll be feeling guilty about not mailing back. I'm not kidding!
+
+The project site is at:
+
+	http://blogping.sourceforge.net/
+
+
+History
+=======
+
+0.1 (Some time around the big snowstorm in Boston in February 2006)
+	Initial version.
+
+1.0 (2006-05-02)
+	First public code release.
+
+1.1 (2006-05-14)
+	Removed some remaining IWPP code and assets. First SourceForge release.

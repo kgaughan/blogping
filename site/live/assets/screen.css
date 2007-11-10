@@ -1,0 +1,159 @@
+/*
+ * Screen layout for the BlogPing project website.
+ *
+ * Please don't use this on other sites without my permission.
+ *
+ * Copyright (c) Keith Gaughan, 2006. All Rights Reserved.
+ */
+
+body {
+	font-family: Georgia, Times, "Times New Roman", serif;
+	margin: 0;
+	padding: 0;
+	background: #49F;
+	line-height: 1.5;
+}
+
+#content {
+	border-top: 8px solid #F70;
+}
+
+a img {
+	border: none;
+}
+
+img {
+	vertical-align: middle;
+}
+
+#wrapper {
+	background: white;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin-bottom: 0;
+	font-weight: normal;
+	color: #F60;
+	clear: both;
+}
+
+h1 a {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+h1 {
+	overflow: hidden;
+	width: 100%;
+	font-weight: normal;
+	text-align: right;
+	margin: 0;
+}
+
+#logo {
+	display: block;
+	float: left;
+	width: 164px;
+	height: 68px;
+	margin-right: 1em;
+	overflow: hidden;
+	position: relative;
+	background: transparent url(images/logo.png) 0% 50% no-repeat;
+}
+
+#logo span {
+	visibility: hidden;
+}
+
+
+#content a:link {
+	color: #06F;
+}
+
+#content a:visited {
+	color: #4AF;
+}
+
+#content p {
+	margin: 1ex 0 0 4em;
+	text-align: justify;
+}
+
+#content p + p {
+	margin-top: 0;
+	text-indent: 2em;
+}
+
+#zoop {
+	background: url(images/gradient.png) 0% 0% repeat-x;
+}
+
+#content, #footer {
+	margin: 0 auto;
+	padding: 1em;
+	width: 44em;
+}
+
+#footer {
+	color: white;
+	padding-top: 1ex;
+}
+
+#footer p, #footer ul {
+	margin-top: 1ex;
+	margin-bottom: 1ex;
+}
+
+#footer h1, #footer h2, #footer h3, #footer h4, #footer h5, #footer h6 {
+	color: #8CF;
+}
+
+#footer a {
+	font-weight: bold;
+	text-decoration: none;
+	color: white;
+}
+
+#footer:hover a {
+	border-bottom: 1px solid #8CF;
+}
+
+#nav {
+	width: 100%;
+	overflow: hidden;
+}
+
+#nav .block {
+	margin-top: 0;
+	margin-bottom: 0;
+	width: 33%;
+	float: left;
+}
+
+#nav .block ul {
+	list-style: url(images/arrow.png);
+}
+
+#footer ul, #footer address, #footer p {
+	font-size: 75%;
+}
+
+#footer address {
+	font-style: normal;
+	border-top: 1px solid #8CF;
+	margin-top: 1em;
+	padding: 1ex 0;
+	text-align: center;
+}
+
+#content .post-footer {
+	border-top: 1px solid silver;
+	color: gray;
+	font-style: italic;
+	text-align: right;
+	clear: both;
+}
+
+#content {
+	padding-bottom: 1em;
+}
