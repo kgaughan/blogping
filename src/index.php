@@ -324,7 +324,7 @@ header('Content-Type: text/html; charset=utf-8');
 <ul id="responders">
 <?php foreach ($responders as $k => $r) { ?>
 	<li><?php checkbox('ping', $k, $r['name']) ?>
-		[<a href="<?php ee($r['url']) ?>" title="<?php ee($r['name']) ?>">link</a>]</li>
+		<a href="<?php ee($r['url']) ?>" title="<?php ee($r['name']) ?>"><img src="assets/images/outward.png" height="16" width="20" alt="External Link"></a></li>
 <?php } ?>
 </ul>
 
@@ -356,7 +356,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 <address>
 <a href="http://blogping.sourceforge.net/" title="Download the source code">BlogPing</a> is
-Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006.<br>
+Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006&ndash;07.<br>
 Have any suggestions? <a href="http://talideon.com/about/contact/">Tell me</a>.
 </address>
 

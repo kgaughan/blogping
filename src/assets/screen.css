@@ -27,6 +27,12 @@ form ul#responders, ul#ping-results {
 form input {
 	vertical-align: baseline;
 }
+img {
+	vertical-align: middle;
+}
+a img {
+	border: none;
+}
 form input[type=text] {
 	border: 1px solid silver;
 	font-size: 150%;
