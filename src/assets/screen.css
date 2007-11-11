@@ -1,124 +1,61 @@
-/*
- * BlogPing
- * by Keith Gaughan <hereticmessiah@users.sourceforge.net>
- *
- * Look-and-feel for site when rendered on-screen.
- *
- * Copyright (c) Keith Gaughan, 2006. All Rights Reserved.
- * See 'LICENSE' file for license details.
- */
-
-address {
-	font-size:			75%;
+* {
+	margin: 0;
+	padding: 0;
 }
-
 body {
-	font:				0.8em Verdana, Times, "Times New Roman", sans-serif;
-	line-height:		1.6;
+	font-family: Calibri, "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", sans-serif;
+	line-height: 1.5;
+	background: black;
+	color: white;
 }
-
-h1, input {
-	font-family:		Verdana, Helvetica, Arial, sans-serif;
-}
-
-form {
-	position:			absolute;
-	top:				0;
-	left:				-45.25em;
-	width:				44em;
-}
-
 h1 {
-	margin:				0;
-	font-size:			180%;
+	padding: 0 0.5ex;
+	font-size: 200%;
 }
-
-img {
-	vertical-align:		middle;
+form {
+	border-top: 2px solid silver;
+	background: white;
+	color: #444;
+	padding: 1ex;
 }
-
-input#name, input#url, input#submit {
-	font-size:			150%;
+form p {
+	margin: 0 0 1ex 0;
 }
-
-input#name, input#url {
-	width:				100%;
+form ul#responders, ul#ping-results {
+	list-style: none;
 }
-
-input#submit {
-	font-weight:		bold;
-	margin:				1ex 0;
+form input {
+	vertical-align: baseline;
 }
-
-#wrapper {
-	border:				1px solid silver;
-	background:			top right white no-repeat;
-
-	position:			absolute;
-	top:				1ex;
-	left:				46em;
-	bottom:				1ex;
-	width:				15em;
+form input[type=text] {
+	border: 1px solid silver;
+	font-size: 150%;
+	width: 30em;
 }
-
-p, address, h1 {
-	margin:				0.5ex 6px 1ex 6px;
+form input[type=submit] {
+	font-size: 150%;
 }
-
+form label {
+	display: block;
+}
+form ul label {
+	display: inline;
+}
 address {
-	margin-top:			2em;
+	padding: 1.5ex;
+	font-style: normal;
+	font-size: 75%;
 }
-
-table {
-	border-collapse:	collapse;
+address a {
+	color: orange;
 }
-
-th, td {
-	vertical-align:		top;
-	text-align:			left;
-	padding:			0;
-	margin:				0;
+ul#ping-results .success {
+	background: transparent url(images/smile.png) left center no-repeat;
+	padding-left: 24px;
+	color: #080;
 }
-
-table.checkboxes td {
-	padding-right:		1ex;
+ul#ping-results .failure {
+	background: transparent url(images/sad.png) left center no-repeat;
+	padding-left: 24px;
+	color: #800;
 }
-
-table#ping-results {
-	background-color:	white;
-	width:				100%;
-	color:				gray;
-}
-
-table#ping-results tr {
-	border-top:			1px solid silver;
-	border-bottom:		1px solid silver;
-}
-
-table#ping-results th {
-	white-space:		nowrap;
-	padding:			0 0.5em;
-}
-
-.failure, .success {
-	background:			center left no-repeat;
-	padding:			0 0.5em 0 25px;
-	width:				100%;
-	min-height:			25px;
-}
-
-.failure {
-	background-image:	url(images/sad.png);
-	color:				red;
-}
-
-.success {
-	background-image:	url(images/smile.png);
-	color:				#080;
-}
-
-.completed {
-	text-align:			center;
-	font-size:			200%;
-}
-

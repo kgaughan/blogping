@@ -17,18 +17,13 @@ of either doing something productive or going daft.
 
 So I wrote a weblog ping proxy.
 
-
 Usage
 =====
 
-If you're setting it up, the first thing you should think about changing is
-the './configuration/configuration.php' file. It's well commented, and each
-setting is explained in it. Edit them there to taste. Next, you'll have to
-edit the templates in the 'template' directory, and the 'assets/screen.css'
-file to suit the look of your ping proxy.
-
-It should be fire and forget, but if you've any problems, head to the project
-site and contact me.
+The code's simple enough to edit. It's divided up into sections, and the bits
+of most interest to you are the ones marked 'Configuration and Ping Responders'
+and 'Page Template'. You edit the former to add and remove ping responders and
+other settings, and the latter to reskin BlogPing to your own taste.
 
 
 Technical Details
@@ -36,13 +31,14 @@ Technical Details
 
 You'll need PHP obviously. It works just fine on PHP 5 (which I have on my
 laptop) and PHP 4 (which the server hosting the copy on my site runs). A quick
-scan through the PHP manual lets me know that PHP 4.3 is the minimum you'll
-need, though it can be changed to run on PHP 4.2 and maybe even PHP 4.1 if
-you don't mind using some deprecated features.
+scan through the PHP manual lets me know that PHP 4.1 is the minimum you'll
+need, though I'm only comfortable recommending a minimum of PHP 4.3.
 
-It doesn't depend on any PECL modules, so it should be deployable everywhere.
-It doesn't care about your magic quotes settings, but turn them off anyway if
-you can 'cause it's a retarded misfeature.
+It doesn't depend on any PECL modules or modules which might not be enabled
+with your hosting provider such as cURL, so it should be deployable everywhere,
+but you're out of luck if your hosting provider doesn't allow the opening of
+sockets. It doesn't care about your magic quotes settings, but turn them off
+anyway if you can 'cause it's a retarded misfeature.
 
 The HTTP client code is pretty robust and designed to work with even the most
 slow and petulant aggregators (*cough* PlanetPHP *cough*), but it doesn't
@@ -79,3 +75,9 @@ History
 
 1.1 (2006-05-14)
 	Removed some remaining IWPP code and assets. First SourceForge release.
+
+1.5 (2007-11-11)
+	New skin; ripped out AntiFwk completely, and pared back the basic HTTP
+	client it contained to contain just enough code to POST an XML-RPC
+	request to a responder. It's now pretty much standalone, except for
+	some assets. I can't see this code being revised any further.
