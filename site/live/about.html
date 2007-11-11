@@ -9,7 +9,7 @@
 
 	<meta name="MSSmartTagsPreventParsing" content="true"/>
 	<meta name="author" content="Keith Gaughan"/>
-	<meta name="Copyright" content="Copyright (c) Keith Gaughan, 2006"/>
+	<meta name="Copyright" content="Copyright (c) Keith Gaughan, 2006-07"/>
 
 	<title>BlogPing: A Weblog Aggregator Ping Proxy</title>
 
@@ -33,19 +33,23 @@ have been updated.</p>
 <p>Well for a start, it&rsquo;s not a competitor to Ping-o-Matic.</p>
 
 <p>BlogPing grew out of a need I had to ping a number of regional weblog
-aggregators, namely <a href="http://irishblogs.ie/">IrishBlogs.ie</a> and
-<a href="http://planet.journals.ie/">Planet Journals</a>. Later, when the code
+aggregators, namely <a href="http://irishblogs.ie/">IrishBlogs.ie</a> and <a
+href="http://planet.journals.ie/">Planet Journals</a>. As my site ran on
+ColdFusion 5, it wasn&rsquo;t practical for me to write the code for pinging in
+that language, so I wrote a proxy in PHP to do the job. Later, when the code
 began to stabilise, I decided to open up the source to whoever else wanted to
 provide a similar service for their local blogosphere.</p>
 
-<p>So I guess you could say it&rsquo;s targeted at people who want to start
-a local service similar to Ping-o-Matic to ping local weblog aggregators and
+<p>So I guess you could say it&rsquo;s targeted at people who want to start a
+local service similar to Ping-o-Matic to ping local weblog aggregators and
 weblog search engines.</p>
 
 <h2>Can I see it in action?</h2>
 
-<p>Sure. Just head to the <a href="http://talideon.com/projects/ping/">Irish
-Weblog Ping Proxy</a>, which is hosted on my site and uses BlogPing.</p>
+<p>Erm, you could have seen a demo of it running at the former location of the
+<a href="http://talideon.com/projects/ping/">Irish Weblog Ping Proxy</a>, which
+was hosted on my site and used BlogPing, my site was moved to a new server and
+the new one doesn&rsquo;t run PHP. I hope to have a demo up again shortly.</p>
 
 <p>I&rsquo;d host a demonstration copy here, but SourceForge doesn&rsquo;t
 appear to let me open outgoing sockets.</p>
@@ -58,13 +62,23 @@ a page listing them.</p>
 <p><a href="http://prdownloads.sourceforge.net/blogping/blogping-1.1.zip?download">Download
 BlogPing 1.1</a>. Full instructions are included.</p>
 
+<h2>What are the minimum requirements?</h2>
+
+<p>I believe it ought to work on PHP 4.1 and onwards, but I&rsquo;m only
+comfortable recommending PHP 4.3 and onwards. It will work just fine on PHP 5
+and has no dependencies. However, if your hosting provider doesn&rsquo;t
+allow outgoing socket connections, all bets are off. Also, if your hosting
+provider doesn&rsquo;t compile <em>expat</em> support into their copy of PHP,
+you&rsquo;re out of luck too. However, considering that it&rsquo;s been part
+of the basic PHP install since PHP 3, it&rsquo;s highly doubtful you&rsquo;ll
+have problems there.</p>
+
 <h2>Any other things I should know?</h2>
 
-<p>The software is covered by the
-<a href="http://www.opensource.org/licenses/mit-license.html">MIT License</a>
-with an extra clause stating that the license is covered by Irish and EU law.
-You can find the project page <a href="http://sourceforge.net/projects/blogping/"
-title="BlogPing Project Page">here</a>.</p>
+<p>The software is covered by the <a
+href="http://www.opensource.org/licenses/mit-license.html">MIT License</a>
+with an extra clause stating that the license is covered by Irish and EU
+law. That last bit&rsquo;s important.</p>
 
 </div></div>
 
@@ -72,7 +86,14 @@ title="BlogPing Project Page">here</a>.</p>
 
 <div id="nav">
 	<div class="block">
-		<p><strong>BlogPing</strong> is a small PHP web application similar to <a href="http://pingomatic.com/">Ping-o-Matic</a>. It allows people using services such as <a href="http://blogger.com/">Blogger</a> (which I&rsquo;m using to manage this site) to notify weblog aggregators and services such as <a href="http://weblogs.com/">Weblogs.com</a>, <a href="http://technorati.com/">Technorati</a>, <a href="http://bloglines.com/">Bloglines</a>, and others that their weblogs have been updated.</p>
+		<p><strong>BlogPing</strong> is a small PHP web application similar to
+		<a href="http://pingomatic.com/">Ping-o-Matic</a>. It allows people
+		using services such as <a href="http://blogger.com/">Blogger</a> (which
+		I&rsquo;m using to manage this site) to notify weblog aggregators and
+		services such as <a href="http://weblogs.com/">Weblogs.com</a>,
+		<a href="http://technorati.com/">Technorati</a>,
+		<a href="http://bloglines.com/">Bloglines</a>, and others that their
+		weblogs have been updated.</p>
 	</div>
 
 	<div class="block">
@@ -87,7 +108,7 @@ title="BlogPing Project Page">here</a>.</p>
 </div>
 
 <address>
-Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006.
+Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006&ndash;07.
 All Rights Reserved.<br/>
 <a href="http://sourceforge.net/"><img
 	src="http://sflogo.sourceforge.net/sflogo.php?group_id=166655&amp;type=1"
