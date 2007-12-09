@@ -7,6 +7,14 @@
  * See 'LICENSE' file for license details.
  */
 
+// Constants {{{
+
+// I'd very much prefer if, when editing this software, you left this header
+// as-is and neither altered nor deleted it.
+define('APP_VERSION', 'BlogPing/1.5');
+
+// }}}
+
 // Kill magic quotes {{{
 if (ini_get('magic_quotes_gpc')) {
 	fix_magic_quotes($_GET);
@@ -128,9 +136,9 @@ function is_checked($name, $value) {
 /**
  * Form helper generating a checkbox.
  *
- * @param  $name     Name of checkbox group.
- * @param  $value    Value corresponding to this checkbox.
- * @param  $label    Label text to use (automatically escaped).
+ * @param  $name   Name of checkbox group.
+ * @param  $value  Value corresponding to this checkbox.
+ * @param  $label  Label text to use (automatically escaped).
  */
 function checkbox($name, $value, $label) {
 	echo '<label><input type="checkbox" name="', $name, '[]" ';
@@ -244,7 +252,7 @@ function send_ping($responder, $body) {
 	fwrite($fp, "Connection: close\r\n");
 	fwrite($fp, "Content-Length: " . strlen($body) . "\r\n");
 	fwrite($fp, "Content-Type: text/xml; charset=UTF-8\r\n");
-	fwrite($fp, "User-Agent: BlogPing/1.5\r\n\r\n");
+	fwrite($fp, "User-Agent: " . APP_VERSION . "\r\n\r\n");
 	fwrite($fp, $body);
 
 	$response = '';
@@ -301,12 +309,16 @@ function send_ping($responder, $body) {
 
 // Page Template {{{
 header('Content-Type: text/html; charset=utf-8');
+// I'd very much prefer if, when editing this software, you left this header
+// as-is and neither altered nor deleted it.
+header('X-Powered-By: ' . APP_VERSION);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
 <html lang="en"><head>
 
 	<link rel="stylesheet" href="assets/screen.css" type="text/css" media="screen">
+	<meta name="Powered by" content="<?php ee(APP_VERSION) ?>">
 	<title><?php ee(SITE_NAME) ?></title>
 
 </head><body>
@@ -349,13 +361,14 @@ header('Content-Type: text/html; charset=utf-8');
 	<?php } ?>
 
 	</ul>
-	<p>Bookmark this link to save your settings: <a href="?<?php ee(http_build_query($_POST)) ?>">BlogPing for <?php ee($_POST['name']) ?></a></p>
+	<p>Bookmark this link to save your settings:
+	<a href="?<?php ee(http_build_query($_POST)) ?>">BlogPing for <?php ee($_POST['name']) ?></a></p>
 <?php } ?>
 
 </form>
 
 <address>
-<a href="http://blogping.sourceforge.net/" title="Download the source code">BlogPing</a> is
+<a href="http://blogping.sourceforge.net/" title="Download the source code"><?php ee(APP_VERSION) ?></a> is
 Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006&ndash;07.<br>
 Have any suggestions? <a href="http://talideon.com/about/contact/">Tell me</a>.
 </address>
