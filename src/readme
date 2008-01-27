@@ -49,6 +49,31 @@ document, we just look for 'flerror' and 'message' and extract the values
 following them. Simple, but effective.
 
 
+Flaws/Bugs
+==========
+
+BlogPing's primary flaw, which is primarily due to the fact that it's
+implemented in PHP, is that it does not and cannot as yet send out a number of
+pings simultaneously. If PHP had facilities for somehow spawning subprocesses
+or threads of some kind which could then be waited on until they were finished,
+several services could be pinged at once, which would improve its
+responsiveness serveralfold and improve resource usage by not tying up the
+webserver. This could be hacked around using JavaScript to make a number of
+simultaneous requests back to the webserver, though this solution is far from
+ideal itself. Another alternative would be the use of stream_select() to
+multiplex requests and responses. This would, most likely, be better.
+
+The response parsing code should be more robust: it treats all non-2xx codes as
+errors, does not understand line continuations, and probably doesn't have
+enough error handling code.
+
+Some services allow whatever is pinging them to specify an RSS file. This ought
+to be something the user could enter.
+
+If no blog title is provided, BlogPing ought to be able to guess it with by
+GETting the URL provided.
+
+
 Contacting
 ==========
 
