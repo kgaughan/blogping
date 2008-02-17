@@ -11,7 +11,7 @@
 
 // I'd very much prefer if, when editing this software, you left this header
 // as-is and neither altered nor deleted it.
-define('APP_VERSION', 'BlogPing/1.5');
+define('APP_VERSION', "BlogPing/1.6 (at {$_SERVER['HTTP_HOST']})");
 
 // }}}
 
@@ -157,8 +157,10 @@ function get_responder_list($requested) {
 
 	$result = array();
 	foreach ($requested as $k) {
-		$r = $responders[$k];
-		$result[$r['name']] = $r['responder'];
+		if (array_key_exists($k, $responders)) {
+			$r = $responders[$k];
+			$result[$r['name']] = $r['responder'];
+		}
 	}
 	return $result;
 }
@@ -311,11 +313,37 @@ function send_ping($responder, $body) {
 
 // }}}
 
+// Ping Programmatically {{{
+function ping_programmatically() {
+	global $responders;
+	$errors = array();
+	if (trim($_POST['name']) == '') {
+		$errors[] = 'No weblog name.';
+	}
+	if (trim($_POST['url']) == '') {
+		$errors[] = 'No URL.';
+	}
+	if (!isset($_POST['ping'])) {
+		$keys = implode(', ', array_keys($responders));
+		$errors[] = "No services specified. Valid keys are: $keys.";
+	}
+	header('Content-Type: text/plain; charset=utf-8', true, count($errors) == 0 ? 200 : 400);
+	if (count($errors) > 0) {
+		echo implode("\n", $errors), "\n";
+	} else {
+		foreach (get_responder_list($_POST['ping']) as $name => $responder) {
+			list($success, $msg) = ping($responder, $_POST['name'], $_POST['url']);
+			$msg = str_replace(array("\n", "\t"), array('\n', '\t'), $msg);
+			echo $success ? '+' : '-', "\t$name\t$msg\n";
+		}
+	}
+}
+// }}}
+
 // Page Template {{{
-header('Content-Type: text/html; charset=utf-8');
-// I'd very much prefer if, when editing this software, you left this header
-// as-is and neither altered nor deleted it.
-header('X-Powered-By: ' . APP_VERSION);
+function page_template() {
+	global $responders;
+	header('Content-Type: text/html; charset=utf-8');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
@@ -379,4 +407,15 @@ Have any suggestions? <a href="http://talideon.com/about/contact/">Tell me</a>.
 
 </body></html>
 <?php
+}
 // }}}
+
+// I'd very much prefer if, when editing this software, you left this header
+// as-is and neither altered nor deleted it.
+header('X-Powered-By: ' . APP_VERSION);
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('quiet', $_POST)) {
+	// If somebody wants to use it programmatically.
+	ping_programmatically();
+} else {
+	page_template();
+}

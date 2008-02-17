@@ -26,6 +26,18 @@ of most interest to you are the ones marked 'Configuration and Ping Responders'
 and 'Page Template'. You edit the former to add and remove ping responders and
 other settings, and the latter to reskin BlogPing to your own taste.
 
+As of 1.6, BlogPing has an interface more suitable for programmatic use. The
+interface is a POST request identical to the normal POST request from the
+BlogPing form, but with the presence of the 'quiet' parameter. The response
+status will either be a 400 (Bad Request) and the body will be diagnostics, one
+per line, or a list of responses, one per line, from each of the XML-RPC
+responders pinged. Each response contains three fields, each separated by TAB
+characters. The first field indicates success or failure, indicated by '+' and
+'-' respectively. The second field contains the name of the service pinged.
+The third field contains the message sent back by the responder. The content
+type of the response will be 'text/plain' in both cases and within the fields,
+TAB characters as escaped with '\t', and newlines/linefeeds with '\n'.
+
 
 Technical Details
 =================
@@ -107,3 +119,10 @@ History
 	client it contained to contain just enough code to POST an XML-RPC
 	request to a responder. It's now pretty much standalone, except for
 	some assets. I can't see this code being revised any further.
+
+1.6 (2008-02-17)
+	Filters out unknown POSTed services.
+	APP_VERSION now includes hostname being used for pinging.
+	Added back the old programmatic ping functionality, but the POSTed flag
+	is now 'quiet' rather than 'silent' as it includes diagnostics now.
+
