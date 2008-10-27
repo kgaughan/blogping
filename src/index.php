@@ -11,7 +11,9 @@
 
 // I'd very much prefer if, when editing this software, you left this header
 // as-is and neither altered nor deleted it.
-define('APP_VERSION', "BlogPing/1.6 (at {$_SERVER['HTTP_HOST']})");
+define('APP_VERSION', "BlogPing/1.6.1");
+
+define('APP_VERSION_FULL', APP_VERSION . " ({$_SERVER['HTTP_HOST']})");
 
 // }}}
 
@@ -48,10 +50,10 @@ $responders = array(
 		'name'      => 'FeedBurner',
 		'responder' => 'http://ping.feedburner.com/',
 		'url'       => 'http://feedburner.com/'),
-	'opml' => array(
-		'name'      => 'Share Your OPML',
-		'responder' => 'http://rpc.opml.org/RPC2',
-		'url'       => 'http://share.opml.org/aggregator/'));
+	'blogs' => array(
+		'name'      => 'Blo.gs',
+		'responder' => 'http://ping.blo.gs/',
+		'url'       => 'http://blo.gs/'));
 // }}}
 
 // General Functions {{{
@@ -258,7 +260,7 @@ function send_ping($responder, $body) {
 	fwrite($fp, "Connection: close\r\n");
 	fwrite($fp, "Content-Length: " . strlen($body) . "\r\n");
 	fwrite($fp, "Content-Type: text/xml; charset=UTF-8\r\n");
-	fwrite($fp, "User-Agent: " . APP_VERSION . "\r\n\r\n");
+	fwrite($fp, "User-Agent: " . APP_VERSION_FULL . "\r\n\r\n");
 	fwrite($fp, $body);
 
 	$response = '';
@@ -357,6 +359,7 @@ function page_template() {
 
 <h1><?php ee(SITE_NAME) ?></h1>
 
+<div id="wrapper">
 <form method="post" action="<?php ee($_SERVER['PHP_SELF']) ?>">
 
 <p><label for="name">Your weblog&rsquo;s name</label>
@@ -365,12 +368,15 @@ function page_template() {
 <p><label for="url">Your weblog&rsquo;s URL</label>
 <?php textbox('url') ?></p>
 
+<fieldset>
+<legend>Services to ping</legend>
 <ul id="responders">
 <?php foreach ($responders as $k => $r) { ?>
 	<li><?php checkbox('ping', $k, $r['name']) ?>
 		<a href="<?php ee($r['url']) ?>" title="<?php ee($r['name']) ?>"><img src="assets/images/outward.png" height="16" width="20" alt="External Link"></a></li>
 <?php } ?>
 </ul>
+</fieldset>
 
 <p><input type="submit" value="Ping!"></p>
 
@@ -399,6 +405,8 @@ function page_template() {
 
 </form>
 
+</div>
+
 <address>
 <a href="http://blogping.sourceforge.net/" title="Download the source code"><?php ee(APP_VERSION) ?></a> is
 Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006&ndash;07.<br>
@@ -412,7 +420,7 @@ Have any suggestions? <a href="http://talideon.com/about/contact/">Tell me</a>.
 
 // I'd very much prefer if, when editing this software, you left this header
 // as-is and neither altered nor deleted it.
-header('X-Powered-By: ' . APP_VERSION);
+header('X-Powered-By: ' . APP_VERSION_FULL);
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && array_key_exists('quiet', $_POST)) {
 	// If somebody wants to use it programmatically.
 	ping_programmatically();

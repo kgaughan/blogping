@@ -12,17 +12,29 @@ h1 {
 	padding: 0 0.5ex;
 	font-size: 200%;
 }
-form {
-	border-top: 2px solid silver;
+#wrapper {
+	border-top: 1px solid #AAA;
 	background: white;
 	color: #444;
 	padding: 1ex;
+}
+form {
+	width: 40em;
+	margin-left: auto;
+	margin-right: auto;
 }
 form p {
 	margin: 0 0 1ex 0;
 }
 form ul#responders, ul#ping-results {
 	list-style: none;
+	overflow: hidden;
+	width: 100%;
+}
+form ul#responders li {
+	width: 33%;
+	float: left;
+	padding-bottom: 0.5ex;
 }
 form input {
 	vertical-align: baseline;
@@ -36,16 +48,24 @@ a img {
 form input[type=text] {
 	border: 1px solid silver;
 	font-size: 150%;
-	width: 30em;
+	width: 100%;
 }
 form input[type=submit] {
 	font-size: 150%;
 }
+form fieldset {
+	border: 0;
+}
+form legend {
+	font-weight: 600;
+}
 form label {
 	display: block;
+	font-weight: 600;
 }
 form ul label {
 	display: inline;
+	font-weight: 300;
 }
 address {
 	padding: 1.5ex;
