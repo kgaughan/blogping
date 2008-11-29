@@ -33,27 +33,7 @@ define('SITE_NAME', 'Your BlogPing Service');
 // Each responder must have a unique identifier, and you must specify a name,
 // the URL of the site the responder sits on, and the URL of the responder
 // itself.
-$responders = array(
-	'wbc' => array(
-		'name'      => 'Weblogs.com',
-		'responder' => 'http://rpc.weblogs.com/RPC2',
-		'url'       => 'http://weblogs.com/'),
-	'rati' => array(
-		'name'      => 'Technorati',
-		'responder' => 'http://rpc.technorati.com/rpc/ping',
-		'url'       => 'http://technorati.com/'),
-	'bloglines' => array(
-		'name'      => 'Bloglines',
-		'responder' => 'http://bloglines.com/ping',
-		'url'       => 'http://bloglines.com/'),
-	'fb' => array(
-		'name'      => 'FeedBurner',
-		'responder' => 'http://ping.feedburner.com/',
-		'url'       => 'http://feedburner.com/'),
-	'blogs' => array(
-		'name'      => 'Blo.gs',
-		'responder' => 'http://ping.blo.gs/',
-		'url'       => 'http://blo.gs/'));
+$responders = parse_ini_file(dirname(__FILE__) . '/responders.ini');
 // }}}
 
 // General Functions {{{
@@ -121,7 +101,7 @@ if (!function_exists('http_build_query')) {
  *                 given.
  */
 function textbox($name, $value=null) {
-	if (is_null($value) && isset($_REQUEST[$name])) {
+	if (is_null($value) && array_key_exists($name, $_REQUEST)) {
 		$value = $_REQUEST[$name];
 	}
 	echo '<input type="text" name="', e($name), '" id="', e($name), '" value="', e($value), '">';
@@ -136,7 +116,7 @@ function textbox($name, $value=null) {
  * @return True if active, else false.
  */
 function is_checked($name, $value) {
-	return isset($_REQUEST[$name]) && array_search($value, $_REQUEST[$name]) !== false;
+	return array_key_exists($name, $_REQUEST) && in_array($value, $_REQUEST[$name]);
 }
 
 /**
@@ -147,7 +127,7 @@ function is_checked($name, $value) {
  * @param  $label  Label text to use (automatically escaped).
  */
 function checkbox($name, $value, $label) {
-	echo '<label><input type="checkbox" name="', $name, '[]" ';
+	echo '<label><input type="checkbox" name="', e($name), '[]" ';
 	if (is_checked($name, $value)) {
 		echo 'checked="checked" ';
 	}
@@ -225,7 +205,7 @@ function parse_ping($response) {
 	$fields = array();
 	$name = null;
 	foreach ($values as $t) {
-		if (isset($t['value'])) {
+		if (array_key_exists('value', $t)) {
 			if (is_null($name)) {
 				$name = $t['value'];
 			} else {
@@ -240,11 +220,11 @@ function parse_ping($response) {
 function send_ping($responder, $body) {
 	$p = parse_url($responder);
 	$path = $p['path'];
-	if (isset($p['query'])) {
+	if (array_key_exists('query', $p)) {
 		$path .= '?' . $p['query'];
 	}
 	$host = $p['host'];
-	$port = isset($p['port']) ? $p['port'] : 80;
+	$port = array_key_exists('port', $p) ? $p['port'] : 80;
 
 	$fp = @fsockopen($host, $port, $errno, $errstr, 5);
 	if (!$fp) {
@@ -325,7 +305,7 @@ function ping_programmatically() {
 	if (trim($_POST['url']) == '') {
 		$errors[] = 'No URL.';
 	}
-	if (!isset($_POST['ping'])) {
+	if (!array_key_exists('ping', $_POST)) {
 		$keys = implode(', ', array_keys($responders));
 		$errors[] = "No services specified. Valid keys are: $keys.";
 	}
@@ -409,7 +389,7 @@ function page_template() {
 
 <address>
 <a href="http://blogping.sourceforge.net/" title="Download the source code"><?php ee(APP_VERSION) ?></a> is
-Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006&ndash;07.<br>
+Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006&ndash;08.<br>
 Have any suggestions? <a href="http://talideon.com/about/contact/">Tell me</a>.
 </address>
 

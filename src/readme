@@ -131,3 +131,7 @@ History
 	Some small improvements to the default layout, such as centring the form
 	on the page, tiling the services checkboxes, wrapping them in a fieldset,
 	and number of other minor ones.
+
+1.7 (2008-11-29)
+	Moved the responders list out of the code and into a separate file.
+	Cleaned out some old-school code.
