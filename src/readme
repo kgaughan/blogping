@@ -51,7 +51,7 @@ It doesn't depend on any PECL modules or modules which might not be enabled
 with your hosting provider such as cURL, so it should be deployable everywhere,
 but you're out of luck if your hosting provider doesn't allow the opening of
 sockets. It doesn't care about your magic quotes settings, but turn them off
-anyway if you can 'cause it's a retarded misfeature.
+anyway if you can because it's a retarded misfeature.
 
 The HTTP client code is pretty robust and designed to work with even the most
 slow and petulant aggregators (*cough* PlanetPHP *cough*), but it doesn't
@@ -66,21 +66,20 @@ Flaws/Bugs
 
 BlogPing's primary flaw, which is primarily due to the fact that it's
 implemented in PHP, is that it does not and cannot as yet send out a number of
-pings simultaneously. If PHP had facilities for somehow spawning subprocesses
-or threads of some kind which could then be waited on until they were finished,
-several services could be pinged at once, which would improve its
-responsiveness serveralfold and improve resource usage by not tying up the
-webserver. This could be hacked around using JavaScript to make a number of
-simultaneous requests back to the webserver, though this solution is far from
-ideal itself. Another alternative would be the use of stream_select() to
-multiplex requests and responses. This would, most likely, be better.
+pings simultaneously.
+
+In PHP 4.3.0 and after, this would be possible using the stream_*() functions,
+in particular stream_select(), but given that I'm aiming for compatibility with
+PHP 4.1, this isn't feasible as the sole mechanism. What I may do is wrap the
+mechanism up in a factory that returns the appropriate mechanism based on
+whether it's possible to use the stream_*() functions or not.
 
 The response parsing code should be more robust: it treats all non-2xx codes as
 errors, does not understand line continuations, and probably doesn't have
 enough error handling code.
 
-Some services allow whatever is pinging them to specify an RSS file. This ought
-to be something the user could enter.
+Some services allow whatever is pinging them to specify a feed URI. This ought
+to be something the user could enter, and possibly for BlogPing to check for.
 
 If no blog title is provided, BlogPing ought to be able to guess it with by
 GETting the URL provided.
@@ -126,3 +125,9 @@ History
 	Added back the old programmatic ping functionality, but the POSTed flag
 	is now 'quiet' rather than 'silent' as it includes diagnostics now.
 
+1.6.1 (2008-10-26)
+	Removed "Share Your OPML" and added "blo.gs" to the default list.
+	Fixed rendering of the application version.
+	Some small improvements to the default layout, such as centring the form
+	on the page, tiling the services checkboxes, wrapping them in a fieldset,
+	and number of other minor ones.
