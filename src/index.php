@@ -33,7 +33,7 @@ define('SITE_NAME', 'Your BlogPing Service');
 // Each responder must have a unique identifier, and you must specify a name,
 // the URL of the site the responder sits on, and the URL of the responder
 // itself.
-$responders = parse_ini_file(dirname(__FILE__) . '/responders.ini');
+$responders = parse_ini_file(dirname(__FILE__) . '/responders.ini', true);
 // }}}
 
 // General Functions {{{
