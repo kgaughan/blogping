@@ -3,21 +3,25 @@
  * BlogPing
  * by Keith Gaughan <hereticmessiah@users.sourceforge.net>
  *
- * Copyright (c) Keith Gaughan, 2006-07. All Rights Reserved.
+ * Copyright (c) Keith Gaughan, 2006-09. All Rights Reserved.
  * See 'LICENSE' file for license details.
  */
 
+define('SITE_NAME', 'Your BlogPing Service');
+
 // Constants {{{
+define('APP_ROOT', dirname(__FILE__));
 
 // I'd very much prefer if, when editing this software, you left this header
 // as-is and neither altered nor deleted it.
-define('APP_VERSION', "BlogPing/1.6.1");
-
+define('APP_VERSION', "BlogPing/1.6.2");
 define('APP_VERSION_FULL', APP_VERSION . " ({$_SERVER['HTTP_HOST']})");
 
+define('CRLF', "\r\n");
 // }}}
 
-// Kill magic quotes {{{
+// Initialisation {{{
+// Kill magic quotes
 if (ini_get('magic_quotes_gpc')) {
 	fix_magic_quotes($_GET);
 	fix_magic_quotes($_POST);
@@ -25,25 +29,19 @@ if (ini_get('magic_quotes_gpc')) {
 	fix_magic_quotes($_REQUEST);
 }
 set_magic_quotes_runtime(0);
-// }}}
-
-// Configuration and Ping Responders {{{
-define('SITE_NAME', 'Your BlogPing Service');
 
 // Each responder must have a unique identifier, and you must specify a name,
 // the URL of the site the responder sits on, and the URL of the responder
 // itself.
-$responders = parse_ini_file(dirname(__FILE__) . '/responders.ini', true);
+$responders = parse_ini_file(APP_ROOT . '/responders.ini', true);
 // }}}
 
 // General Functions {{{
 
-/**
- * Walks a array, fixing magic quotes.
- */
+/** Walks a array, fixing magic quotes. */
 function fix_magic_quotes(&$arr) {
 	$keys =& array_keys($arr);
-	$n    =  count($keys);
+	$n = count($keys);
 
 	for ($i = 0; $i < $n; ++$i) {
 		$val =& $arr[$keys[$i]];
@@ -55,16 +53,12 @@ function fix_magic_quotes(&$arr) {
 	}
 }
 
-/**
- *
- */
+/** Entity-encoded echoing. */
 function ee($s) {
 	echo htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 }
 
-/**
- *
- */
+/** A shorter, less annoyingly long wrapper around htmlspecialchars(). */
 function e($s) {
 	return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
 }
@@ -134,7 +128,7 @@ function checkbox($name, $value, $label) {
 	echo 'value="', e($value), '"> ', e($label), '</label>';
 }
 
-function get_responder_list($requested) {
+function get_responder_list(array $requested) {
 	global $responders;
 
 	$result = array();
@@ -158,7 +152,7 @@ function get_responder_list($requested) {
  * @param  $name       Name of your weblog.
  * @param  $url        The URL of it's homepage.
  *
- * @param  An array, the first field specifying whether it succeeded or not,
+ * @return An array, the first field specifying whether it succeeded or not,
  *         and the second the message/error in the response.
  */
 function ping($responder, $name, $url) {
@@ -174,7 +168,7 @@ function ping($responder, $name, $url) {
 
 function build_ping($name, $url) {
 	$name = e($name);
-	$url  = e($url);
+	$url = e($url);
 
 	// The two parameters are on the same line to compensate for a bug in
 	// IrishBlog.ie and co.
@@ -263,8 +257,8 @@ function send_ping($responder, $body) {
 			}
 		} else {
 			// Headers.
-			while ($stage < 2 && strpos($response, "\r\n") !== false) {
-				list($line, $response) = explode("\r\n", $response, 2);
+			while ($stage < 2 && strpos($response, CRLF) !== false) {
+				list($line, $response) = explode(CRLF, $response, 2);
 				if ($stage == 0) {
 					// Status line.
 					list($version, $status, $reason) = explode(' ', $line, 3);
@@ -311,7 +305,7 @@ function ping_programmatically() {
 	}
 	header('Content-Type: text/plain; charset=utf-8', true, count($errors) == 0 ? 200 : 400);
 	if (count($errors) > 0) {
-		echo implode("\n", $errors), "\n";
+		echo "!\t", implode("\n!\t", $errors), "\n";
 	} else {
 		foreach (get_responder_list($_POST['ping']) as $name => $responder) {
 			list($success, $msg) = ping($responder, $_POST['name'], $_POST['url']);
@@ -389,7 +383,7 @@ function page_template() {
 
 <address>
 <a href="http://blogping.sourceforge.net/" title="Download the source code"><?php ee(APP_VERSION) ?></a> is
-Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006&ndash;08.<br>
+Copyright &copy; <a href="http://talideon.com/">Keith Gaughan</a>, 2006&ndash;09.<br>
 Have any suggestions? <a href="http://talideon.com/about/contact/">Tell me</a>.
 </address>
 
