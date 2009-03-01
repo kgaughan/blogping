@@ -157,7 +157,7 @@ function get_responder_list(array $requested) {
  */
 function ping($responder, $name, $url) {
 	$request = build_ping($name, $url);
-	list($success, $response) = send_ping($responder, $request);
+	list($success, $response) = do_post($responder, $request);
 	if ($success) {
 		$vs = parse_ping($response);
 		$success = $vs['flerror'] == 0;
@@ -211,8 +211,9 @@ function parse_ping($response) {
 	return $fields;
 }
 
-function send_ping($responder, $body) {
-	$p = parse_url($responder);
+/** A very simple HTTP client capable of only sending basic HTTP POSTs. */
+function do_post($uri, $body, $content_type='text/xml', $timeout=5) {
+	$p = parse_url($uri);
 	$path = $p['path'];
 	if (array_key_exists('query', $p)) {
 		$path .= '?' . $p['query'];
@@ -220,21 +221,22 @@ function send_ping($responder, $body) {
 	$host = $p['host'];
 	$port = array_key_exists('port', $p) ? $p['port'] : 80;
 
-	$fp = @fsockopen($host, $port, $errno, $errstr, 5);
+	$fp = @fsockopen($host, $port, $errno, $errstr, $timeout);
 	if (!$fp) {
 		return array(false, "Cannot connect");
 	}
 
 	// Using the alias for backward compatibility.
-	socket_set_timeout($fp, 5);
+	socket_set_timeout($fp, $timeout);
 
-	fwrite($fp, "POST $path HTTP/1.0\r\n");
-	fwrite($fp, "Host: $host\r\n");
-	fwrite($fp, "Date: " . gmdate('r') . "\r\n");
-	fwrite($fp, "Connection: close\r\n");
-	fwrite($fp, "Content-Length: " . strlen($body) . "\r\n");
-	fwrite($fp, "Content-Type: text/xml; charset=UTF-8\r\n");
-	fwrite($fp, "User-Agent: " . APP_VERSION_FULL . "\r\n\r\n");
+	write_header($fp, "POST $path HTTP/1.0", array(
+		'Host' => $host,
+		'Date' => gmdate('r'),
+		'Connection' => 'close',
+		'Content-Length' => strlen($body),
+		'Content-Type' => "$content_type; charset=UTF-8",
+		'User-Agent' => APP_VERSION_FULL));
+
 	fwrite($fp, $body);
 
 	$response = '';
@@ -285,6 +287,14 @@ function send_ping($responder, $body) {
 	@fclose($fp);
 
 	return array(true, $response);
+}
+
+function write_header($fp, $request_line, array $headers) {
+	fwrite($fp, $request_line . CRLF);
+	foreach ($headers as $k => $v) {
+		fwrite($fp, "$k: $v" . CRLF);
+	}
+	fwrite($fp, CRLF);
 }
 
 // }}}
