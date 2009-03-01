@@ -330,6 +330,9 @@ function ping_programmatically() {
 function page_template() {
 	global $responders;
 	header('Content-Type: text/html; charset=utf-8');
+	if (file_exists(APP_ROOT . '/template.php')) {
+		include APP_ROOT . '/template.php';
+	} else {
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
 
@@ -399,6 +402,7 @@ Have any suggestions? <a href="http://talideon.com/about/contact/">Tell me</a>.
 
 </body></html>
 <?php
+	}
 }
 // }}}
 
