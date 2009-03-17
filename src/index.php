@@ -14,7 +14,7 @@ define('APP_ROOT', dirname(__FILE__));
 
 // I'd very much prefer if, when editing this software, you left this header
 // as-is and neither altered nor deleted it.
-define('APP_VERSION', "BlogPing/1.6.2");
+define('APP_VERSION', "BlogPing/1.7");
 define('APP_VERSION_FULL', APP_VERSION . " ({$_SERVER['HTTP_HOST']})");
 
 define('CRLF', "\r\n");
