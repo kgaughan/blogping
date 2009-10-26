@@ -359,8 +359,7 @@ function page_template() {
 <legend>Services to ping</legend>
 <ul id="responders">
 <?php foreach ($responders as $k => $r) { ?>
-	<li><?php checkbox('ping', $k, $r['name']) ?>
-		<a href="<?php ee($r['url']) ?>" title="<?php ee($r['name']) ?>"><img src="assets/images/outward.png" height="16" width="20" alt="External Link"></a></li>
+	<li><a href="<?php ee($r['url']) ?>" title="<?php ee($r['name']) ?>"><img src="assets/images/outward.png" height="16" width="20" alt="External Link"></a><?php checkbox('ping', $k, $r['name']) ?></li>
 <?php } ?>
 </ul>
 </fieldset>
