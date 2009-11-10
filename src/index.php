@@ -7,14 +7,12 @@
  * See 'LICENSE' file for license details.
  */
 
-define('SITE_NAME', 'Your BlogPing Service');
-
 // Constants {{{
 define('APP_ROOT', dirname(__FILE__));
 
 // I'd very much prefer if, when editing this software, you left this header
 // as-is and neither altered nor deleted it.
-define('APP_VERSION', "BlogPing/1.7");
+define('APP_VERSION', 'BlogPing/1.7.1');
 define('APP_VERSION_FULL', APP_VERSION . " ({$_SERVER['HTTP_HOST']})");
 
 define('CRLF', "\r\n");
@@ -32,8 +30,17 @@ set_magic_quotes_runtime(0);
 
 // Each responder must have a unique identifier, and you must specify a name,
 // the URL of the site the responder sits on, and the URL of the responder
-// itself.
+// itself. The responders file also contains the site settings.
 $responders = parse_ini_file(APP_ROOT . '/responders.ini', true);
+if (isset($responders['@settings'])) {
+	$settings = $responders['@settings'];
+	unset($responders['@settings']);
+} else {
+	$settings = array();
+}
+if (!isset($settings['site_name'])) {
+	$settings['site_name'] = 'My BlogPing Service';
+}
 // }}}
 
 // General Functions {{{
@@ -223,7 +230,7 @@ function do_post($uri, $body, $content_type='text/xml', $timeout=5) {
 
 	$fp = @fsockopen($host, $port, $errno, $errstr, $timeout);
 	if (!$fp) {
-		return array(false, "Cannot connect");
+		return array(false, 'Cannot connect');
 	}
 
 	// Using the alias for backward compatibility.
@@ -328,7 +335,7 @@ function ping_programmatically() {
 
 // Page Template {{{
 function page_template() {
-	global $responders;
+	global $responders, $settings;
 	header('Content-Type: text/html; charset=utf-8');
 	if (file_exists(APP_ROOT . '/template.php')) {
 		include APP_ROOT . '/template.php';
@@ -340,11 +347,11 @@ function page_template() {
 
 	<link rel="stylesheet" href="assets/screen.css" type="text/css" media="screen">
 	<meta name="Powered by" content="<?php ee(APP_VERSION) ?>">
-	<title><?php ee(SITE_NAME) ?></title>
+	<title><?php ee($settings['site_name']) ?></title>
 
 </head><body>
 
-<h1><?php ee(SITE_NAME) ?></h1>
+<h1><?php ee($settings['site_name']) ?></h1>
 
 <div id="wrapper">
 <form method="post" action="<?php ee($_SERVER['PHP_SELF']) ?>">
