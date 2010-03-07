@@ -341,7 +341,7 @@ function page_template() {
 		include APP_ROOT . '/template.php';
 	} else {
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!DOCTYPE html>
 
 <html lang="en"><head>
 
